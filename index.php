@@ -33,6 +33,15 @@
     <link href="css/index.css" rel="stylesheet">
 
     <style>
+        .task-item {
+            min-height: 23em;
+
+        }
+
+        .h3-responsive {
+            font-weight: normal;
+        }
+        
         /* Small devices (landscape phones, 576px and up) */
         html {
             font-size: 0.6rem;
@@ -47,7 +56,10 @@
         @media (min-width: 768px) { 
             html {
             font-size: 0.8rem;
-        }
+            }
+            .h3-responsive {
+            font-weight: bold;
+            }
         }
 
         /* Large devices (desktops, 992px and up) */
@@ -99,7 +111,7 @@
                     </li>
                     <li class = "nav-item"><a class = "nav-link" href="html/administration.php" >Administration</a></li>
                     <!--<li class = "nav-item"><a class = "nav-link" href="#" >Our Services</a></li>-->
-                    <li class = "nav-item"><a class = "nav-link" href="#" >Aide</a></li>
+                    <li class = "nav-item"><a class = "nav-link" href="html/aide.php" >Aide</a></li>
                 </ul>
             </nav>
         </div>
@@ -160,21 +172,133 @@
         </div>
 
 
-        <div class = "row mt-2 mx-3">
+        <div class = "row my-2 mx-1">
             <div class = "col-md-12 flex_box m-auto" style = "background-color: #eeeeee; padding:5px;">
-                <div class = ""><a class="btn btn-primary font-weight-bold btn-flex" href="html/create_account.php">Créer un compte</a></div>
+                <div class = ""><a class="btn btn-primary font-weight-bold btn-flex" href="html/create_account.php"><span class="fa fa-plus" aria-hidden="true"></span> Créer un compte</a></div>
             </div>
         </div>
-        <!-- Défilement de photos aléatoires -->
+
+        <!-- Images -->
+        <div class = "row flex_box m-auto">
+            <div class = "col-xs-12 col-md-4 task-item">
+                <div id = "administration" class = "carousel slide" data-ride = "carousel">
+                    <!-- The Slideshow -->
+                    <div class = "carousel-inner">
+                        <div class = "carousel-item active"  data-interval="10000">
+                            <img src = "images/administration.png" class="d-block w-100 rounded" alt="">
+                            <div class="carousel-caption">
+                                <h3 class="">Administration</h3>
+                                <!--<p>First text</p>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class = "col-lg-12 text-center mb-5 py-2">
+                        <h2><span class="fa fa-check text-success"></span> Administrez vos réunions avec moins d'effort</h2>
+                        <div class = ""><a class="btn btn-primary font-weight-bold btn-flex" href="html/administration.php"><i class="fa fa-play" aria-hidden="true"></i> Commencer maintenant</a></div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class = "col-xs-12 col-md-4 task-item">
+                <div id = "information" class = "carousel slide" data-ride = "carousel">
+                    <!-- The Slideshow -->
+                    <div class = "carousel-inner">
+                        <div class = "carousel-item active"  data-interval="10000">
+                            <img src = "images/informer.png" class="d-block w-100 rounded" alt="">
+                            <div class="carousel-caption">
+                                <h3 class="">Information</h3>
+                                <!--<p>First text</p>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class = "col-lg-12 text-center mb-5 py-2">
+                        <h2><span class="fa fa-check text-success"></span> Informez vous et les autres sur les actualités de la famille</h2>
+                        <div class = ""><a class="btn btn-primary font-weight-bold btn-flex" href="html/acceuil_login.php"><i class="fa fa-play" aria-hidden="true"></i> Commencer maintenant</a></div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class = "col-xs-12 col-md-4 task-item">
+                <div id = "partager" class = "carousel slide" data-ride = "carousel">
+                    <!-- The Slideshow -->
+                    <div class = "carousel-inner">
+                        <div class = "carousel-item active"  data-interval="10000">
+                            <img src = "images/slide-image-2.jpg" class="d-block w-100 rounded" alt="">
+                            <div class="carousel-caption">
+                                <h3 class="">Partage</h3>
+                                <!--<p>First text</p>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class = "col-lg-12 text-center mb-5 py-2">
+                        <h2><span class="fa fa-check text-success"></span> Partagez vos beaux moments passés avec la famille</h2>
+                        <div class = ""><a class="btn btn-primary font-weight-bold btn-flex" href="html/galerie.php"><i class="fa fa-play" aria-hidden="true"></i> Commencer maintenant</a></div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class = "col-xs-12 col-md-4 task-item">
+                <div id = "finance" class = "carousel slide" data-ride = "carousel">
+                    <!-- The Slideshow -->
+                    <div class = "carousel-inner">
+                        <div class = "carousel-item active"  data-interval="10000">
+                            <img src = "images/financer.png" class="d-block w-100 rounded" alt="">
+                            <div class="carousel-caption">
+                                <h3 class="text-primary">Achats</h3>
+                                <!--<p>First text</p>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class = "col-lg-12 text-center mb-5 py-2">
+                        <h2><span class="fa fa-check text-success"></span> Déclarez et gérez vos achats</h2>
+                        <div class = ""><a class="btn btn-primary font-weight-bold btn-flex" href="html/mon_compte.php?mon_compte=contribution_et_participation"><i class="fa fa-play" aria-hidden="true"></i> Commencer maintenant</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class = "col-xs-12 col-md-4 task-item">
+                <div id = "finance" class = "carousel slide" data-ride = "carousel">
+                    <!-- The Slideshow -->
+                    <div class = "carousel-inner">
+                        <div class = "carousel-item active"  data-interval="10000">
+                            <img src = "images/financer.png" class="d-block w-100 rounded" alt="">
+                            <div class="carousel-caption">
+                                <h3 class="text-primary">Financement</h3>
+                                <!--<p>First text</p>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class = "col-lg-12 text-center mb-5 py-2">
+                        <h4><span class="fa fa-check text-success"></span> Envoyez vos contributions financières facilement</h4>
+                        <div class = ""><a class="btn btn-primary font-weight-bold btn-flex" href="html/mon_compte.php?mon_compte=contribution_et_participation"><i class="fa fa-play" aria-hidden="true"></i> Commencer maintenant</a></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
         <footer class = "row">
             <div class = "col-lg-12">
-                <div class = "row m-3" style="background-color: #eeeeee;">
+                <div class = "row m-1 py-2" style="background-color: #eeeeee;">
                     <div class = "col-md-4 col-6">
                         <h2>Explorer</h2>
-                        Exemples de Video
-                        <br>Aide
+                        <a href = "html/galerie.php">Images</a>
+                        <br><a href = "html/aide.php"Aide></a>
                         <h2>A propos</h2>
-                        Histoires
+                        <a href = "www.chrisdevs.fr">Nos services</a>
                         <br>Blogs
                     </div>
                     <div class = "col-md-4 col-6">
@@ -182,9 +306,14 @@
                         Qui nous sommes
                         <br>Notre vision
                         <h2>Contact</h2>
+                        <span><i class="fa fa-phone" aria-hidden="true"></i> +49 176 471 70820</span>
+                        <br><span><i class="fa fa-whatsapp" aria-hidden="true"></i> +49 163 264 5907</span>
+                        <br><span><i class="fa fa-envelope-o" aria-hidden="true"></i> yepmochristopher@yahoo.fr</span>
+
                     </div>
                     <div class = "col-md-4 d-none d-md-block">
                         <h2>Nous suivre</h2>
+                        <span><a href = "https://www.facebook.com/Chrisdevs-118387616877345"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></span>
                     </div>
                 </div>
             </div>

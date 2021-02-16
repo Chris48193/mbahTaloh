@@ -65,7 +65,7 @@
 			             	<div class="row">
 			                 	<div class="col-lg-6 col-md-6 col-xs-12 col-sm-12 mb-3">
 			                     	<div class="card card-body bg-light">
-			                         	<form id="loginForm" method="POST" action="../php/authenticate.php">
+			                         	<form id="loginForm" method="POST" action='<?php if(isset($_GET["pageUrl"]) && trim($_GET["pageUrl"]) != "") { $pageUrl = $_GET["pageUrl"]; echo "../php/authenticate.php?pageUrl=$pageUrl"; } else {echo "../php/authenticate.php";} ?>'>
 						                    <div class="form-group">
 						                        <label for="username" class="control-label">E-mail</label>
 						                        <input type="text" class="form-control" id="username" name="email" required="required" title="Veillez entrer votre E-mail" placeholder = "example@gmail.com" value = <?php if (isset($_GET['email'])){ echo $_GET['email']; } ?>>

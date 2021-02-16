@@ -74,6 +74,10 @@ session_start();
 						<div class = "col-lg-12">
 							<h4>Contributions financieres</h4>
 							<?php
+							if(isset($_GET['success']) && $_GET['success'] != "") {
+								$success = $_GET['success'];
+								echo "<div class = 'alert alert-success' role='alert'>$success</div>";
+							}
 							$id_membre = $_SESSION['id'];
 							$annee = $_SESSION['session_reunion'];
 							$sql = "SELECT *, FORMAT(SUM(all_achats.Montant), 2) AS total_amount

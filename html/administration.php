@@ -7,6 +7,20 @@
 ----------------------------------
 -->
 <?php
+    function get_current_page_url() {
+        #Getting current page url
+        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
+            $url = "https://";   
+        else  
+            $url = "http://";   
+        // Append the host(domain name, ip) to the URL.   
+        $url.= $_SERVER['HTTP_HOST'];   
+        
+        // Append the requested resource location to the URL   
+        $url.= $_SERVER['REQUEST_URI'];
+        return $url;    
+    }
+    
     session_start();
     if (isset($_SESSION['admin']))
     {
@@ -16,7 +30,8 @@
     {
         if (!(isset($_SESSION['login'])))
         {
-            header('Location: login.php');
+            $pageUrl = get_current_page_url();
+            header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
         }
         else
         {
@@ -41,6 +56,10 @@
     <title>Administration</title>
 
     <style>
+        a:hover {
+            text-decoration: none !important;
+            color: red !important;
+        }
 		#dropArea_factures
 		{
 			border: dashed #ccc 3px;
@@ -141,7 +160,7 @@
                     </li>
                     <li class = "nav-item"><a class = "nav-link" href="administration.php" >Administration</a></li>
                     <!--<li class = "nav-item"><a class = "nav-link" href="#" >Our Services</a></li>-->
-                    <li class = "nav-item"><a class = "nav-link" href="#" >Aide</a></li>
+                    <li class = "nav-item"><a class = "nav-link" href="aide.php" >Aide</a></li>
                 </ul>
             </nav>
         </div>
@@ -172,7 +191,7 @@
                         <a class = "nav-link" href="administration.php" style="color:#006ddd;">Administration</a>
                     </li>
                     <li class="nav-item">
-                    <a class = "nav-link" href="#" style="color:#006ddd;">Aide</a>
+                    <a class = "nav-link" href="aide.php" style="color:#006ddd;">Aide</a>
                     </li>
                     <li class = "nav-item"><a class = "nav-link" style="color:#006ddd;" href = "../php/logout.php" class="font-weight-bold"><span class = "fas fa-sign-out-alt"></span>&nbsp;&nbsp;Déconnexion</a></li>
                 </ul>
@@ -242,23 +261,28 @@
 
         <footer class = "row">
             <div class = "col-lg-12">
-                <div class = "row m-3" style="background-color: #eeeeee;">
-                    <div class = "col-lg-4 col-6">
+                <div class = "row m-1 py-2" style="background-color: #eeeeee;">
+                    <div class = "col-md-4 col-6">
                         <h2>Explorer</h2>
-                        Exemples de Video
-                        <br>Aide
+                        <a href = "galerie.php">Images</a>
+                        <br><a href = "aide.php"Aide></a>
                         <h2>A propos</h2>
-                        Histoires
+                        <a href = "www.chrisdevs.fr">Nos services</a>
                         <br>Blogs
                     </div>
-                    <div class = "col-lg-4 col-6">
+                    <div class = "col-md-4 col-6">
                         <h2>A propos</h2>
                         Qui nous sommes
                         <br>Notre vision
                         <h2>Contact</h2>
+                        <span><i class="fa fa-phone" aria-hidden="true"></i> +49 176 471 70820</span>
+                        <br><span><i class="fa fa-whatsapp" aria-hidden="true"></i> +49 163 264 5907</span>
+                        <br><span><i class="fa fa-envelope-o" aria-hidden="true"></i> yepmochristopher@yahoo.fr</span>
+
                     </div>
-                    <div class = "col-lg-4 d-none d-md-block">
+                    <div class = "col-md-4 d-none d-md-block">
                         <h2>Nous suivre</h2>
+                        <span><a href = "https://www.facebook.com/Chrisdevs-118387616877345" target = "_blank"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></span>
                     </div>
                 </div>
             </div>

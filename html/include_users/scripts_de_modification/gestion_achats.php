@@ -227,7 +227,7 @@ session_start();
 										<div class="form-group">
 											<label class="col-md-3 control-label">Prix Unitaire</label>
 											<div class="col-md-12">
-												<input name="prix_unit" type="text" v-model="prix_unit" v-bind:value="prix_unit" class="form-control">
+												<input name="prix_unit" type="text" placeholder="Ex. 6.99 (Pas 6,99)" v-model="prix_unit" v-bind:value="prix_unit" class="form-control">
 											</div>
 										</div>
 										<!-- Quantity input-->
@@ -270,7 +270,6 @@ session_start();
 							</div>
 						</div>
 					</div>
-				</div>
 
 				<div class = "row">
 					<div class = "col-lg-12">

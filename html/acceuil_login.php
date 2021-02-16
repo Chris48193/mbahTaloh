@@ -8,9 +8,23 @@
 -->
 <?php
     session_start();
+    function get_current_page_url() {
+        #Getting current page url
+        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
+            $url = "https://";   
+        else  
+            $url = "http://";   
+        // Append the host(domain name, ip) to the URL.   
+        $url.= $_SERVER['HTTP_HOST'];   
+        
+        // Append the requested resource location to the URL   
+        $url.= $_SERVER['REQUEST_URI'];
+        return $url;    
+    }
     if (!(isset($_SESSION['login'])))
     {
-        header('Location: ../index.php');
+        $pageUrl = get_current_page_url();
+        header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
     }
     $id_membre = $_SESSION['id'];
 ?>
@@ -104,7 +118,7 @@
 
         <!-- Navbar medium screen -->
         <div class = "row mx-2 d-none d-md-flex">
-            <nav class = "col-md-12 navbar navbar-expand-md|lg|xl navbar-light sticky-top" style = "background-color: #eeeeee;">
+            <nav class = "col-md-12 navbar navbar-expand-md|lg|xl navbar-light" style = "background-color: #eeeeee;">
                 <form class = "form-inline" action="/">
                     <input class = "form-control mr-sm-2" type = "text" placeholder="Rechercher">
                     <button class = "btn btn-primary font-weight-bold" type = "submit">Rechercher</button>
@@ -123,7 +137,7 @@
                     </li>
                     <li class = "nav-item"><a class = "nav-link" href="administration.php" >Administration</a></li>
                     <!--<li class = "nav-item"><a class = "nav-link" href="#" >Our Services</a></li>-->
-                    <li class = "nav-item"><a class = "nav-link" href="#" >Aide</a></li>
+                    <li class = "nav-item"><a class = "nav-link" href="aide.php" >Aide</a></li>
                 </ul>
             </nav>
         </div>
@@ -154,7 +168,7 @@
                         <a class = "nav-link" href="administration.php" style="color:#006ddd;">Administration</a>
                     </li>
                     <li class="nav-item">
-                    <a class = "nav-link" href="#" style="color:#006ddd;">Aide</a>
+                    <a class = "nav-link" href="aide.php" style="color:#006ddd;">Aide</a>
                     </li>
                     <li class = "nav-item"><a class = "nav-link" style="color:#006ddd;" href = "../php/logout.php" class="font-weight-bold"><span class = "fas fa-sign-out-alt"></span>&nbsp;&nbsp;Déconnexion</a></li>
                 </ul>
@@ -202,20 +216,24 @@
             </div>
         </div>
 
-        <div class = "row mt-1 mx-3">
+        <div class = "row mt-3 mx-1">
             <div class = "col-md-12 flex_box" style = "background-color: #eeeeee; padding:5px;">
                 <div class = ""><a type="button" class="btn btn-primary font-weight-bold" href="mon_compte.php">Mon compte</a></div>
             </div>
         </div>
 
         <!-- Affichage des publications -->
-        <?php
-            include("include/publications.php");
-        ?>
+        <div class = "row">
+            <div class = "col-md-12" style = "margin-left:10px !important; margin-right:10px !important;">
+                <?php
+                    include("include/publications.php");
+                ?>
+            </div>
+        </div>
 
-
+        <!-- Teaser image -->
         <div class = "" style = "background-color: #eeeeee;">
-            <a target = "_blank" style = "text-decoration: none;" href = "galerie.php"><h3 class = "text-center">Explorer la galerie d'images</h3><a>
+            <a target = "_blank" style = "text-decoration: none;" href = "galerie.php"><h3 class = "text-center h3-responsive">Cliquer pour ici Explorer la galerie d'images</h3><a>
             <?php
                         $all_files = scandir("../uploads/images_galerie");
                         $length = count($all_files);
@@ -291,23 +309,28 @@
        
         <footer class = "row">
             <div class = "col-lg-12">
-                <div class = "row m-3" style="background-color: #eeeeee;">
-                    <div class = "col-lg-4">
+                <div class = "row m-1 py-2" style="background-color: #eeeeee;">
+                    <div class = "col-md-4 col-6">
                         <h2>Explorer</h2>
-                        Exemples de Video
-                        <br>Aide
+                        <a href = "galerie.php">Images</a>
+                        <br><a href = "aide.php"Aide></a>
                         <h2>A propos</h2>
-                        Histoires
+                        <a href = "www.chrisdevs.fr">Nos services</a>
                         <br>Blogs
                     </div>
-                    <div class = "col-lg-4">
+                    <div class = "col-md-4 col-6">
                         <h2>A propos</h2>
                         Qui nous sommes
                         <br>Notre vision
                         <h2>Contact</h2>
+                        <span><i class="fa fa-phone" aria-hidden="true"></i> +49 176 471 70820</span>
+                        <br><span><i class="fa fa-whatsapp" aria-hidden="true"></i> +49 163 264 5907</span>
+                        <br><span><i class="fa fa-envelope-o" aria-hidden="true"></i> yepmochristopher@yahoo.fr</span>
+
                     </div>
-                    <div class = "col-lg-4">
+                    <div class = "col-md-4 d-none d-md-block">
                         <h2>Nous suivre</h2>
+                        <span><a href = "https://www.facebook.com/Chrisdevs-118387616877345"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></span>
                     </div>
                 </div>
             </div>
@@ -337,7 +360,7 @@
                     preview_link = document.createElement('a');
                     preview_img = document.createElement('img');
                     preview_img.src = src;
-                    preview_img.setAttribute('class', 'img-fluid zoom');
+                    preview_img.setAttribute('class', 'img-fluid zoom mb-2');
                     preview_link.append(preview_img);
                     preview_link.setAttribute('class', 'fancybox');
                     preview_link.setAttribute('rel', 'lightbox');

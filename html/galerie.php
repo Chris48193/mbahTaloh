@@ -1,5 +1,23 @@
 <?php
     session_start();
+    function get_current_page_url() {
+        #Getting current page url
+        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
+            $url = "https://";   
+        else  
+            $url = "http://";   
+        // Append the host(domain name, ip) to the URL.   
+        $url.= $_SERVER['HTTP_HOST'];   
+        
+        // Append the requested resource location to the URL   
+        $url.= $_SERVER['REQUEST_URI'];
+        return $url;    
+    }
+    if (!(isset($_SESSION['login'])))
+    {
+        $pageUrl = get_current_page_url();
+        header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+    }
     $id_membre = $_SESSION['id'];
 ?>
 <!DOCTYPE html>
@@ -125,7 +143,7 @@ img.zoom {
                         <h6 class = "m-1">Ajouter des images ici par glissé déposé ou par selection d'une image dans votre mobile</h6>
                         <div class = "flex-box">
                             <p class = "text-center my-2">Déposer les images ici
-                            <p><input type="file" id="fileElem" multiple accept="image/*" onchange='handleFiles(this.files)' capture>
+                            <p><input type="file" id="fileElem" multiple accept="image/*" onchange='handleFiles(this.files)' capture required="required">
                             <label class="button btn btn-primary font-weight-bold" for="fileElem">Choisir des images</label>
                         </div>
                         <progress id = "progress_bar_factures" role="progressbar" class = "progress progress-bar-info progress-bar" aria-valuemax="100" aria-valuemin="0" style="width:100%"></progress>
@@ -140,6 +158,7 @@ img.zoom {
             </div>
         </div>
         <a href="" class = "btn btn-primary font-weight-bold">Terminé</a>
+        <a href="acceuil_login.php" class = "btn btn-primary font-weight-bold">Retour à l'acceuil</a>
         <div class="row mt-3">
             <?php
             echo "<div id = 'id_membre' value = '$id_membre' hidden>$id_membre</div>";

@@ -32,7 +32,11 @@
     if (!isset($_POST['email']) || !isset($_POST['mdp']))
     {
         $error = "Veillez vérifier l'entrée de vos données";
-        header("Location:../html/login.php?error=$error");
+        if(isset($_GET["pageUrl"]) && trim($_GET["pageUrl"]) != "") { 
+            header("Location:../html/login.php?error=$error&pageUrl=$pageUrl"); 
+        } else {
+            header("Location:../html/login.php?error=$error");
+        }
     }
     else
     {
@@ -65,7 +69,11 @@
         if (count_results($response) != 1)
         {
             $error = "L'utilisateur est inexistant. Veillez créer un compte";
-            header("Location: ../html/login.php?error=$error&email=$email");
+            if(isset($_GET["pageUrl"]) && trim($_GET["pageUrl"]) != "") { 
+                header("Location:../html/login.php?error=$error&pageUrl=$pageUrl&email=$email"); 
+            } else {
+                header("Location:../html/login.php?error=$error&email=$email");
+            }
         }
         else
         {
@@ -81,13 +89,23 @@
                 $_SESSION['name'] = $donnees['Nom'];
                 $_SESSION['email'] = $donnees['Email'];
                 $_SESSION['id'] = $donnees['Id_membre'];
-                header("Location: ../html/acceuil_login.php");
+                
+                if(isset($_GET["pageUrl"]) && trim($_GET["pageUrl"]) != "") {
+                    $page_url = $_GET["pageUrl"];
+                    header("Location: $page_url"); 
+                } else {
+                    header("Location: ../html/acceuil_login.php");
+                }
             }
             else
             {
                 $error = "Mot de passe incorrect";
                 $salt = $donnees['Hashe'];
-                header("Location: ../html/login.php?error=$error&email=$email");
+                if(isset($_GET["pageUrl"]) && trim($_GET["pageUrl"]) != "") { 
+                    header("Location:../html/login.php?error=$error&pageUrl=$pageUrl&email=$email"); 
+                } else {
+                    header("Location:../html/login.php?error=$error&email=$email");
+                }
             }
         }
 

@@ -1,5 +1,23 @@
 <?php
-session_start();
+	session_start();
+	function get_current_page_url() {
+        #Getting current page url
+        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
+            $url = "https://";   
+        else  
+            $url = "http://";   
+        // Append the host(domain name, ip) to the URL.   
+        $url.= $_SERVER['HTTP_HOST'];   
+        
+        // Append the requested resource location to the URL   
+        $url.= $_SERVER['REQUEST_URI'];
+        return $url;    
+    }
+    if (!(isset($_SESSION['login'])))
+    {
+        $pageUrl = get_current_page_url();
+        header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+    }
     try
     {
         $pdd = new PDO('mysql:host=localhost;dbname=reunion_famille;charset=utf8', 'root', '');
