@@ -1,13 +1,20 @@
 <?php
-    try
-    {
-        $pdd = new PDO('mysql:host=localhost;dbname=reunion_famille;charset=utf8', 'root', '');
-        $pdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e)
-    {
-        die('Erreur : ' . $e->getMessage());
-    }
+    #Connexion a la base
+    include '../config/db_config.php';
+
+        try {
+            $pdd = new PDO("mysql:host=$host_name; dbname=$database;", $user_name, $password);
+            $pdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
+        #En cas d'erreur
+        catch (Exception $e)
+        {
+            $error = "Erreur de connexion à la base de données, veillez réessayer ultérieurement.";
+            //header("Location: acceuil_login.php?error=$error");
+            $url = "acceuil_login.php?error=$error";
+            echo "<script>window.location.href='$url';</script>";
+            #die('Erreur : ' . $e->getMessage());
+        }
     $session_reunion = $_SESSION['session_reunion'];
     $response = $pdd->query("SELECT Contribution_par_personne FROM session_reunion WHERE annee = $session_reunion");
                     while($donnees = $response->fetch())

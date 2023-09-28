@@ -1,4 +1,6 @@
-<!--
+<?php
+    session_start();
+/*<!--
 ----------------------------------
 - Filename: logout.php
 - Author: Christopher Yepmo
@@ -6,12 +8,12 @@
 - Description: Page de déconnexion
 ----------------------------------
 -->
-<!-- Démarrage de la session -->
-<?php
-    session_start();
+<!-- Démarrage de la session -->*/
     if (isset($_SESSION['login']))
     {
         session_destroy();
-        header('location:../index.php');
+        //header('location:../index.php');
+        $url = "../index.php";
+        echo "<script>window.location.href='$url';</script>";
     }
 ?>

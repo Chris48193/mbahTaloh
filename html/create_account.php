@@ -61,7 +61,7 @@
 								}
 							?>
 							<div class = "card card-body bg-light modal-body">
-								<form class = "form-horizontal" action = "../php/confirm_email.php" method = "post">
+								<form class = "form-horizontal" action = "../php/inscription.php" method = "post">
 									<fieldset>
 										<!--name input-->
 										<div class="form-group">

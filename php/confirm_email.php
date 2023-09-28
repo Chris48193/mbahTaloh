@@ -49,7 +49,9 @@
     if (!isset($_POST['name']) || !isset($_POST['surname']) || !isset($_POST['email']) || !isset($_POST['mdp']) || !isset($_POST['telephone']) || !isset($_POST['date_naissance']) || !isset($_POST['adresse']))
     {
         $error = "Vérifiez vos entrées s'il vous plait. Certaines ne sont pas valides";
-        header("Location:../html/create_account.php?error=$error");
+        //header("Location:../html/create_account.php?error=$error");
+        $url = "../html/create_account.php?error=$error";
+        echo "<script>window.location.href='$url';</script>";
     }
     else
     {
@@ -77,15 +79,23 @@
         setcookie('adresse', $adresse, time() + 24*3600, null, null, false, true);
 
         #Connexion a la base
-        try
-        {
-            $pdd = new PDO('mysql:host=localhost;dbname=reunion_famille;charset=utf8', 'root', '');
+        include '../config/db_config.php';
+        $pdd = null;
+
+        try {
+            $pdd = new PDO("mysql:host=$host_name; dbname=$database;", $user_name, $password);
+            $pdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
-        catch (PDOException $e)
+        #En cas d'erreur
+        catch (Exception $e)
         {
             $error = "Erreur de connexion à la base de données, veillez réessayer ultérieurement.";
-            header("Location: ../html/create_account.php?error=$error");
+            //header("Location: ../html/login.php?error=$error");
+            $url = "../html/create_account.php?error=$error";
+            echo "<script>window.location.href='$url';</script>";
+            #die('Erreur : ' . $e->getMessage());
         }
+
 
         #Verification de la présence du membre dans la base
         $response = $pdd->query('SELECT * FROM membre WHERE Email="'.$email.'"');
@@ -94,7 +104,7 @@
             #Validation de l'email
             $mail = new PHPMailer(TRUE);
             try{
-                $mail->setFrom('chrisblack123br456@gmail.com', 'Christopher Yepmo');
+                $mail->setFrom('support@chrisdevs.fr', 'support@chrisdevs.fr');
                 $mail->addAddress($email, $surname);
             
                 $mail->isHTML(TRUE);
@@ -104,36 +114,44 @@
                 
                 $mail->isSMTP();
             
-                $mail->Host = 'smtp.gmail.com';
+                $mail->Host = 'smtp.ionos.com';
                 $mail->SMTPAuth = TRUE;
                 $mail->SMTPSecure = 'tls';
-                $mail->Username = 'chrisblack123br456@gmail.com';
-                $mail->Password = 'Blancheneige123';
+                $mail->Username = 'support@chrisdevs.fr';
+                $mail->Password = 'Christroi$12';
                 $mail->Port = 587;
             
                 $mail->SMTPDebug = 4;
             
                 $mail->send();
 
-                header("Location:../html/page_confirmation_email.html");
+                //header("Location:../html/page_confirmation_email.html");
+                $url = "../html/page_confirmation_email.html";
+                echo "<script>window.location.href='$url';</script>";
             }
             catch(Exception $e){
                 #$error = $e->errorMessage();
                 $error = "Erreur de connection au serveur mail. Veillez réessayer ultérieurement.";
-                header("Location: ../html/create_account.php?error=$error");
+                //header("Location: ../html/create_account.php?error=$error");
+                $url = "../html/create_account.php?error=$error";
+                echo "<script>window.location.href='$url';</script>";
             }
             catch(\Exception $e){
                 /* PHP exception (note the backslash to select the global namespace Exception class). */
                 #$error = $e->getMessage();
                 $error = "Erreur de connection au serveur mail. Veillez réessayer ultérieurement.";
-                header("Location: ../html/create_account.php?error=$error");
+                //header("Location: ../html/create_account.php?error=$error");
+                $url = "../html/create_account.php?error=$error";
+                echo "<script>window.location.href='$url';</script>";
             }
             
         }
         else
         {
             $error = "Un compte avec cet E-mail existe déja. Veillez vous connecter";
-            header("Location: ../html/create_account.php?error=$error");
+            //header("Location: ../html/login.php?error=$error");
+            $url = "../html/login.php?error=$error";
+            echo "<script>window.location.href='$url';</script>";
         }
     }
 ?>

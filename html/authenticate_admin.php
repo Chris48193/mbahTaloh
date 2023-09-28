@@ -16,7 +16,9 @@
     if (!(isset($_SESSION['login'])))
     {
         $pageUrl = get_current_page_url();
-        header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+        //header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+        $url = "login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl";
+        echo "<script>window.location.href='$url';</script>";
     }
 ?>
 <!DOCTYPE html>
@@ -48,7 +50,8 @@
 									<?php
 								}
 							?>
-							<div class="alert alert-warning" role="alert">L'accès à l'interface administrateur est limité à certains utilisateurs. Si vous ne connaissez pas le mot de passe, veillez nous contacter.</div>
+							<div class="alert alert-warning" role="alert">L'accès à l'interface administrateur est limité à certains utilisateurs. Si vous ne connaissez pas le mot de passe, veillez nous contacter.
+                            <br>Pour des raisons de test et sondage, le mot de passe est: root</div>
 			             	<div class="row">
 			                 	<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 			                     	<div class="card card-body bg-light">
@@ -73,12 +76,16 @@
                         if ($_POST['mdp'] == "root")
                         {
                             $_SESSION['admin'] = TRUE;
-                            header("Location: administration.php");
+                            //header("Location: administration.php");
+                            $url = "administration.php";
+                            echo "<script>window.location.href='$url';</script>";
                         }
                         else
                         {
                             $error = "Mot de passe incorrect";
-                            header("Location: authenticate_admin.php?error=$error");
+                            //header("Location: authenticate_admin.php?error=$error");
+                            $url = "authenticate_admin.php?error=$error";
+                            echo "<script>window.location.href='$url';</script>";
                         }
 					}
 			?>

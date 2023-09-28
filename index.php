@@ -1,12 +1,3 @@
-<!--
-----------------------------------
-- Filename: index.php
-- Author: Christopher Yepmo
-- Date: 01-08-2020
-- Description: Page d'acceuil pour utilisateur non authentifiés
-----------------------------------
--->
-<!-- Démarrage de la session -->
 <?php
     session_start();
     if (isset($_SESSION['login']))

@@ -3,17 +3,24 @@
 <h4 style="cursor: pointer;" onclick = "toggle_hide_show('detail_reunion')">Détails de la réunion session <?php $annee = $_SESSION['session_reunion']; echo $annee; ?></h4>
 <div id = "detail_reunion">
     <?php
-    try
-    {
-        $bdd = new PDO('mysql:host=localhost;dbname=reunion_famille;charset=utf8', 'root', '');
-        $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    #Connexion a la base
+    include '../config/db_config.php';
+
+    try {
+        $pdd = new PDO("mysql:host=$host_name; dbname=$database;", $user_name, $password);
+        $pdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
+    #En cas d'erreur
     catch (Exception $e)
     {
-        die('Erreur : ' . $e->getMessage());
+        $error = "Erreur de connexion à la base de données, veillez réessayer ultérieurement.";
+        //header("Location: acceuil_login.php?error=$error");
+        $url = "acceuil_login.php?error=$error";
+        echo "<script>window.location.href='$url';</script>";
+        #die('Erreur : ' . $e->getMessage());
     }
     $annee = $_SESSION['session_reunion'];
-    $response_reunion = $bdd->query("SELECT *, YEAR(Arrivee) AS session_year FROM session_reunion WHERE annee = $annee");
+    $response_reunion = $pdd->query("SELECT *, YEAR(Arrivee) AS session_year FROM session_reunion WHERE annee = $annee");
     while($donnees_reunion = $response_reunion->fetch())
         {
             ?>

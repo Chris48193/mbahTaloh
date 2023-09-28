@@ -16,16 +16,25 @@
     if (!(isset($_SESSION['login'])))
     {
         $pageUrl = get_current_page_url();
-        header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+        //header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+		$url = "login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl";
+        echo "<script>window.location.href='$url';</script>";
     }
-    try
-    {
-        $pdd = new PDO('mysql:host=localhost;dbname=reunion_famille;charset=utf8', 'root', '');
-        $pdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e)
-    {
-        die('Erreur : ' . $e->getMessage());
+    #Connexion a la base
+	include '../config/db_config.php';
+
+	try {
+		$pdd = new PDO("mysql:host=$host_name; dbname=$database;", $user_name, $password);
+		$pdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	}
+	#En cas d'erreur
+	catch (Exception $e)
+	{
+		$error = "Erreur de connexion à la base de données, veillez réessayer ultérieurement.";
+		//header("Location: ../html/login.php?error=$error");
+		$url = "../html/login.php?error=$error";
+		echo "<script>window.location.href='$url';</script>";
+		#die('Erreur : ' . $e->getMessage());
 	}
 	$annee = $_SESSION['session_reunion'];
 	echo "<div id = 'annee' title = '$annee' hidden></div>";
@@ -117,7 +126,7 @@
 										<h6 class = "m-2">Télécharger la facture ici par glissé déposé ou par selection d'une image dans votre mobile</h6>
 										<div class = "flex-box">
 											<p class = "text-center my-4">Déposer la facture ici
-											<p><input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)" capture>
+											<p><input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
 											<label class="button btn btn-primary font-weight-bold" for="fileElem">Choisir une photo ou un pdf</label>
 										</div>
 										<progress id = "progress_bar_factures" role="progressbar" class = "progress progress-bar-info progress-bar" aria-valuemax="100" aria-valuemin="0" style="width:100%"></progress>

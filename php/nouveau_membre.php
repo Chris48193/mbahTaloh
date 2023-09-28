@@ -50,15 +50,21 @@
         $salt = $randomString;
 
 
-        try
-        {
-            $pdd = new PDO('mysql:host=localhost;dbname=reunion_famille;charset=utf8', 'root', '');
+        #Connexion a la base
+        include '../config/db_config.php';
+
+        try {
+            $pdd = new PDO("mysql:host=$host_name; dbname=$database;", $user_name, $password);
+            $pdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
+        #En cas d'erreur
         catch (Exception $e)
         {
-            die('Erreur : ' . $e->getMessage());
-            $error = "Erreur de connection a la base de données";
-            header("Location: ../html/create_account.php?error=$error");
+            $error = "Erreur de connexion à la base de données, veillez réessayer ultérieurement.";
+            //header("Location: ../html/create_account.php?error=$error");
+            $url = "../html/create_account.php?error=$error";
+            echo "<script>window.location.href='$url';</script>";
+            #die('Erreur : ' . $e->getMessage());
         }
 
         $req = $pdd->prepare("INSERT INTO membre(Nom, Prenom, Email, Sel, Hashe, Telephone, Date_de_naissance, Adresse) 
@@ -76,6 +82,8 @@
 
         $req = $pdd->prepare("INSERT INTO participer(Id_member, Id_session, Est_contribuable) VALUES('$id', '$annee', '$est_contribuable')");
         #Redirection
-        header("Location:../html/administration.php?error=$error&page=donnees_membres");
+        //header("Location:../html/administration.php?error=$error&page=donnees_membres");
+        $url = "../html/administration.php?error=$error&page=donnees_membres";
+        echo "<script>window.location.href='$url';</script>";
     #}
 ?>

@@ -1,13 +1,12 @@
-<!--
-----------------------------------
-- Filename: acceuil_login.html
-- Author: Christopher Yepmo
-- Date: 01-08-2020
-- Description: Page d'acceuil pour utilisateur authentifiés ou non authentifiés
-----------------------------------
--->
-<?php
-    session_start();
+<?php session_start();
+#<!--
+#----------------------------------
+#- Filename: acceuil_login.html
+#- Author: Christopher Yepmo
+#- Date: 01-08-2020
+#- Description: Page d'acceuil pour utilisateur authentifiés ou non authentifiés
+#----------------------------------
+#-->
     function get_current_page_url() {
         #Getting current page url
         if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
@@ -24,7 +23,9 @@
     if (!(isset($_SESSION['login'])))
     {
         $pageUrl = get_current_page_url();
-        header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+        //header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+        $url = "login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl";
+        echo "<script>window.location.href='$url';</script>";
     }
     $id_membre = $_SESSION['id'];
 ?>
@@ -86,16 +87,10 @@
         .modal-footer{
         display:none;  
         }
-        #publication_element
-        {
-            background-color: #eeeeee;
-            padding: 1vw;
-            border-radius: 10px;
-            text-align: justify;
-        }
         .content{
-            height: 1.5rem;
+            /* height: 3rem; */
             overflow: hidden;
+            word-wrap: break-word;
         }
         .lire_plus{
             text-decoration:none;
@@ -233,17 +228,17 @@
 
         <!-- Teaser image -->
         <div class = "" style = "background-color: #eeeeee;">
-            <a target = "_blank" style = "text-decoration: none;" href = "galerie.php"><h3 class = "text-center h3-responsive">Cliquer pour ici Explorer la galerie d'images</h3><a>
+            <a target = "_blank" style = "text-decoration: none;" href = "galerie.php"><h3 class = "text-center h3-responsive">Cliquer ici pour Explorer la galerie d'images</h3><a>
             <?php
-                        $all_files = scandir("../uploads/images_galerie");
-                        $length = count($all_files);
-                        $pictures = array_slice($all_files, 2, $length-2);
-                        $selected_pictures = array_rand($pictures, 4);
-                        $picture1 = $pictures[$selected_pictures[0]];
-                        $picture2 = $pictures[$selected_pictures[1]];
-                        $picture3 = $pictures[$selected_pictures[2]];
-                        $picture4 = $pictures[$selected_pictures[3]];
-                    ?>
+                $all_files = scandir("../uploads/images_galerie");
+                $length = count($all_files);
+                $pictures = array_slice($all_files, 2, $length-2);
+                $selected_pictures = array_rand($pictures, 4);
+                $picture1 = $pictures[$selected_pictures[0]];
+                $picture2 = $pictures[$selected_pictures[1]];
+                $picture3 = $pictures[$selected_pictures[2]];
+                $picture4 = $pictures[$selected_pictures[3]];
+            ?>
             <div class = "row mt-1 mx-3">
                 <div class = "col-md-12 flex_box" style = "background-color: #eeeeee;">
                         <div class="col-lg-3 col-md-4 col-6 thumb my-3">
@@ -273,40 +268,6 @@
             </div>
         </div>
 
-
-        <!-- Fenetre modale de creation de publication -->
-        <div class = "modal fade" id = "publication">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title" id="myModalLabel">Créer une publication</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="card card-body bg-light">
-                                    <!--<form id="publicationForm" method="POST" action="../php/save_publication.php">-->
-                                    <form id="publicationForm" <?php echo "onsubmit='save_publication($id_membre)'"; ?>>
-                                    <div class="form-group">
-                                        <label for="publication_body" class="control-label">Contenu de la publication</label>
-                                        <textarea class="form-control" id="publication_body" name="publication_body" required="required" placeholder = "Que voulez vous dire, <?php echo $_SESSION['surname']; ?> ?"></textarea>
-                                    </div>
-                                    <div id = "image_preview2"></div>
-                                    <div class="form-group">
-                                        <label class="button btn btn-primary font-weight-bold" for="publicationPicture">Ajouter des photos</label>
-                                        <input type="file" id="publicationPicture" multiple accept="image/*" onchange="showPreview2(this.files)" capture hidden>
-                                    </div>
-                                        <input type = "submit" class="btn btn-success btn-block" value = "Publier">
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-			</div>
-        </div>
-       
         <footer class = "row">
             <div class = "col-lg-12">
                 <div class = "row m-1 py-2" style="background-color: #eeeeee;">
@@ -337,91 +298,5 @@
         </footer>
     </div>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script>
-        function toggle_publication_content(bouton_lire_plus, content_id){
-            let publication_content = document.getElementById(content_id)
-            if (publication_content.style.height != "auto"){
-                publication_content.style.height = "auto";
-                bouton_lire_plus.textContent = "Afficher moins"
-            }
-            else {
-                publication_content.style.height = "1.5rem";
-                bouton_lire_plus.textContent = "Afficher plus"
-            }
-            return false;
-        }
-
-        function showPreview2(files){
-            files = [...files];
-            if(files.length > 0){
-                files.forEach(function(file){
-                    src = URL.createObjectURL(file);
-                    preview_div = document.createElement('div');
-                    preview_link = document.createElement('a');
-                    preview_img = document.createElement('img');
-                    preview_img.src = src;
-                    preview_img.setAttribute('class', 'img-fluid zoom mb-2');
-                    preview_link.append(preview_img);
-                    preview_link.setAttribute('class', 'fancybox');
-                    preview_link.setAttribute('rel', 'lightbox');
-                    preview_div.append(preview_link);
-                    preview_div.setAttribute('class', 'col-lg-6 thumb');
-                    preview_div.setAttribute('style', 'display:inline-block;');
-                    document.getElementById('image_preview2').append(preview_div);
-                })
-            }
-        }
-        function save_publication(id_membre){
-            input_publication_content = document.getElementById('publication_body');
-            publication_content = input_publication_content.value;
-            input_element = document.getElementById('publicationPicture');
-            pictures = input_element.files;
-            pictures = [...pictures];
-            let formDataPublicationContent = new FormData;
-            formDataPublicationContent.append('content', publication_content);
-            formDataPublicationContent.append('id_membre', id_membre);
-            formDataPublicationContent.append('action', 'save_publication_content');
-            fetch('../php/save_publication.php', {
-                method: 'POST',
-                body: formDataPublicationContent
-                })
-                .then((response) => {
-                    console.log(response);
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-            pictures.forEach(function(picture){
-                let formData = new FormData;
-                formData.append('pictures', picture);
-                formData.append('id_membre', id_membre);
-                formData.append('action', 'save_publication_pictures');
-                fetch('../php/save_publication.php', {
-                    method: 'POST',
-                    body: formData
-                    })
-                    .then((response) => {
-                        console.log(response);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
-            })
-            windows.reload();
-        }
-        $(document).ready(function(){
-        $(".fancybox").fancybox({
-                openEffect: "none",
-                closeEffect: "none"
-            });
-            
-            $(".zoom").hover(function(){
-                
-                $(this).addClass('transition');
-            }, function(){
-                $(this).removeClass('transition');
-            });
-        });
-    </script>
 </body>
 </html>

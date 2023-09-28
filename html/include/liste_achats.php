@@ -1,12 +1,19 @@
 <?php
-    try
-    {
-        $pdd = new PDO('mysql:host=localhost;dbname=reunion_famille;charset=utf8', 'root', '');
+    #Connexion a la base
+    include '../config/db_config.php';
+
+    try {
+        $pdd = new PDO("mysql:host=$host_name; dbname=$database;", $user_name, $password);
         $pdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
+    #En cas d'erreur
     catch (Exception $e)
     {
-        die('Erreur : ' . $e->getMessage());
+        $error = "Erreur de connexion à la base de données, veillez réessayer ultérieurement.";
+        //header("Location: acceuil_login.php?error=$error");
+        $url = "acceuil_login.php?error=$error";
+        echo "<script>window.location.href='$url';</script>";
+        #die('Erreur : ' . $e->getMessage());
     }
 
     $annee = $_SESSION['session_reunion'];
@@ -49,7 +56,7 @@
                         <h6 class = "m-2">Télécharger la facture ici par glissé déposé ou par selection d'une image dans votre mobile</h6>
                         <div class = "flex-box">
                             <p class = "text-center my-4">Déposer la facture ici
-                            <p><input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)" capture>
+                            <p><input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
                             <label class="button btn btn-primary font-weight-bold" for="fileElem">Choisir une photo ou un pdf</label>
                         </div>
                         <progress id = "progress_bar_factures" role="progressbar" class = "progress progress-bar-info progress-bar" aria-valuemax="100" aria-valuemin="0" style="width:100%"></progress>
@@ -68,7 +75,7 @@
     <div class = "col-lg-6">
         <form method = "post" action = "../php/nouveau_achat.php">
             <fieldset>
-            <legend class="scheduler-border">Nouvel achat</legend>
+            <legend class="scheduler-border">Nouvel achat (Entrée détaillée)</legend>
             <!--Buyer name input-->
             <div class="form-group">
 			    <label class="col-md-3 control-label">Acheteur</label>
@@ -104,7 +111,7 @@
             <div class="form-group">
                 <label class="col-md-3 control-label">Prix Unitaire</label>
                 <div class="col-md-12">
-                    <input name="prix_unit" type="text" placeholder="prix unitaire en €" class="form-control" required>
+                    <input name="prix_unit" type="text" placeholder="Ex: 6.5 (Non 6,5)" class="form-control" required>
                 </div>
             </div>
             <!-- Quantity input-->

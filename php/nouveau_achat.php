@@ -8,6 +8,8 @@
     {
         $error = "Vérifiez vos entrées s'il vous plait. Certaines ne sont pas valides";
         header("Location:../html/administration.php?page=liste_achats&error=$error");
+        //$url = "../html/administration.php?page=liste_achats&error=$error";
+        //echo "<script>window.location.href='$url';</script>";
     }
     else
     {
@@ -21,16 +23,21 @@
         $date = trim(htmlspecialchars($_POST['date']));
 
 
-        try
-        {
-            $pdd = new PDO('mysql:host=localhost;dbname=reunion_famille;charset=utf8', 'root', '');
+        #Connexion a la base
+        include '../config/db_config.php';
+
+        try {
+            $pdd = new PDO("mysql:host=$host_name; dbname=$database;", $user_name, $password);
             $pdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
+        #En cas d'erreur
         catch (Exception $e)
         {
-            die('Erreur : ' . $e->getMessage());
-            $error = "Erreur de connection a la base de données";
+            $error = "Erreur de connexion à la base de données, veillez réessayer ultérieurement.";
             header("Location:../html/administration.php?page=liste_achats&error=$error");
+            //$url = "../html/administration.php?page=liste_achats&error=$error";
+            //echo "<script>window.location.href='$url';</script>";
+            #die('Erreur : ' . $e->getMessage());
         }
 
         $req = $pdd->prepare("INSERT INTO achat(annee, Id_acheteur, Article, Magasin, Prix_unitaire, Nombre, Montant, Remarque, Date_achat) 
@@ -49,10 +56,16 @@
         #Redirection
         if(isset($_GET['page'])){
             $success = "L'article a été bien ajouté";
-            if($_GET['page'] == "contribution"){header("Location:../html/include_users/scripts_de_modification/contribution.php?error=$error&success=$success");}
+            if($_GET['page'] == "contribution"){
+                header("Location:../html/include_users/scripts_de_modification/contribution.php?error=$error&success=$success");
+                //$url = "../html/include_users/scripts_de_modification/contribution.php?error=$error&success=$success";
+                //echo "<script>window.location.href='$url';</script>";
+            }
         }
         else{
             header("Location:../html/administration.php?error=$error&page=liste_achats");
+            //$url = "../html/administration.php?error=$error&page=liste_achats";
+            //echo "<script>window.location.href='$url';</script>";
         }
     }
 ?>

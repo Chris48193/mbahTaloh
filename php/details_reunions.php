@@ -1,5 +1,4 @@
-<?php
-    session_start();
+<?php session_start();
     $annee = $_SESSION['session_reunion'];
     $id = $_SESSION['id'];
     $error = "";
@@ -25,7 +24,9 @@
 
         try
         {
-            $pdd = new PDO('mysql:host=localhost;dbname=reunion_famille;charset=utf8', 'root', '');
+            include '../config/db_config.php';
+
+            $pdd = new PDO("mysql:host=$host_name; dbname=$database;", $user_name, $password);
             $pdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $req = $pdd->prepare("INSERT INTO session_reunion(annee, Arrivee, Debut_location_standard, Fin_location, Nmbr_de_nuit, Nmbr_de_participants, Nmbr_de_contribuables, Contribution_par_personne, Montant_achat, Montant_achat_et_dons, Montant_location, Depenses_totales) 
             VALUES(:annee, :arrivee, :debut_location_standard, :fin_location, :nombre_de_nuits, :nombre_de_participants, :nombre_de_contribuables, :contribution_par_personne, :montant_achat, :montant_achat_plus_dons, :montant_location, :depenses_totales)");
@@ -44,13 +45,19 @@
                 'depenses_totales' => $depenses_totales,
             ));
 
-            header("Location:../html/administration.php?page=details_reunions&error=$error");
+            //header("Location:../html/administration.php?page=details_reunions&error=$error");
+            $url = "../html/administration.php?page=details_reunions&error=$error";
+            echo "<script>window.location.href='$url';</script>";
         }
         catch (Exception $e)
         {
             $error = $e->getMessage();
-            header("Location:../html/administration.php?page=details_reunions&error=$error");
+            //header("Location:../html/administration.php?page=details_reunions&error=$error");
+            $url = "../html/administration.php?page=details_reunions&error=$error";
+            echo "<script>window.location.href='$url';</script>";
         }
-        header("Location:../html/administration.php?page=details_reunions&error=$error");
+        //header("Location:../html/administration.php?page=details_reunions&error=$error");
+        $url = "../html/administration.php?page=details_reunions&error=$error";
+        echo "<script>window.location.href='$url';</script>";
     }
 ?>

@@ -1,15 +1,12 @@
-
-<!--
-----------------------------------
-- Filename: authenticate.php
-- Author: Christopher Yepmo
-- Date: 22-08-2020
-- Description: Page php de traitement de l'authentification
-----------------------------------
--->
-<?php
-    #Démarrage de la session
-    session_start();
+<?php session_start();
+#<!--
+#----------------------------------
+#- Filename: authenticate.php
+#- Author: Christopher Yepmo
+#- Date: 22-08-2020
+#- Description: Page php de traitement de l'authentification
+#----------------------------------
+#-->
     #Définition des variables globales
     $error = "";
 
@@ -33,9 +30,13 @@
     {
         $error = "Veillez vérifier l'entrée de vos données";
         if(isset($_GET["pageUrl"]) && trim($_GET["pageUrl"]) != "") { 
-            header("Location:../html/login.php?error=$error&pageUrl=$pageUrl"); 
+            //header("Location:../html/login.php?error=$error&pageUrl=$pageUrl");
+            $url = "../html/login.php?error=$error&pageUrl=$pageUrl";
+            echo "<script>window.location.href='$url';</script>";
         } else {
-            header("Location:../html/login.php?error=$error");
+            //header("Location:../html/login.php?error=$error");
+            $url = "../html/login.php?error=$error";
+            echo "<script>window.location.href='$url';</script>";
         }
     }
     else
@@ -43,23 +44,22 @@
         #Récupération des données
         $email = trim(htmlspecialchars($_POST['email']));
         $mdp = trim(htmlspecialchars($_POST['mdp']));
+        
         #Connexion a la base
-        try
-        {
-            $pdd = new PDO('mysql:host=localhost;dbname=reunion_famille;charset=utf8', 'root', '');
+        include '../config/db_config.php';
+
+        try {
+            $pdd = new PDO("mysql:host=$host_name; dbname=$database;", $user_name, $password);
+            $pdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         #En cas d'erreur
         catch (Exception $e)
         {
             $error = "Erreur de connexion à la base de données, veillez réessayer ultérieurement.";
-            header("Location: ../html/login.php?error=$error");
+            //header("Location: ../html/login.php?error=$error");
+            $url = "../html/login.php?error=$error";
+            echo "<script>window.location.href='$url';</script>";
             #die('Erreur : ' . $e->getMessage());
-        }
-        #S'exécute toujours peu importe l'erreur
-        finally
-        {
-            $error = "Erreur de connexion à la base de données, veillez réessayer ultérieurement.";
-            header("Location: ../html/login.php?error=$error");
         }
 
         #Exécution de la requete pour récupérer le membre dans la base de donnée
@@ -70,9 +70,14 @@
         {
             $error = "L'utilisateur est inexistant. Veillez créer un compte";
             if(isset($_GET["pageUrl"]) && trim($_GET["pageUrl"]) != "") { 
-                header("Location:../html/login.php?error=$error&pageUrl=$pageUrl&email=$email"); 
+                header("Location:../html/login.php?error=$error&pageUrl=$pageUrl&email=$email");
+                //$url = "../html/login.php?error=$error&pageUrl=$pageUrl&email=$email";
+                //echo "<script>window.location.href='$url';</script>";
             } else {
                 header("Location:../html/login.php?error=$error&email=$email");
+              	//echo $url;
+                //$url = "../html/login.php?error=$error&email=$email";
+                //echo "<script>window.location.href='$url';</script>";
             }
         }
         else
@@ -92,9 +97,13 @@
                 
                 if(isset($_GET["pageUrl"]) && trim($_GET["pageUrl"]) != "") {
                     $page_url = $_GET["pageUrl"];
-                    header("Location: $page_url"); 
+                    //header("Location: $page_url");
+                    $url = "$page_url";
+                    echo "<script>window.location.href='$url';</script>";
                 } else {
-                    header("Location: ../html/acceuil_login.php");
+                    //header("Location: ../html/acceuil_login.php");
+                    $url = "../html/acceuil_login.php";
+                    echo "<script>window.location.href='$url';</script>";
                 }
             }
             else
@@ -102,9 +111,13 @@
                 $error = "Mot de passe incorrect";
                 $salt = $donnees['Hashe'];
                 if(isset($_GET["pageUrl"]) && trim($_GET["pageUrl"]) != "") { 
-                    header("Location:../html/login.php?error=$error&pageUrl=$pageUrl&email=$email"); 
+                    //header("Location:../html/login.php?error=$error&pageUrl=$pageUrl&email=$email");
+                    $url = "../html/login.php?error=$error&pageUrl=$pageUrl&email=$email";
+                    echo "<script>window.location.href='$url';</script>";
                 } else {
-                    header("Location:../html/login.php?error=$error&email=$email");
+                    //header("Location:../html/login.php?error=$error&email=$email");
+                    $url = "../html/login.php?error=$error&email=$email";
+                    echo "<script>window.location.href='$url';</script>";
                 }
             }
         }

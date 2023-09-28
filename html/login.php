@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,7 +94,6 @@
 					                        <li><span class="fa fa-check text-success"></span> Post des informations</li>
 					                    </ul>
 			                        <p><a href="create_account.php" class="btn btn-info btn-block">Oui, Créer mon compte maintenant</a></p>
-			                 	</div>
 			             	</div>
 			         	</div>
 			     	</div>

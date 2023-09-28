@@ -114,14 +114,20 @@
 </div>
 
 <?php
-try
-{
-    $bdd = new PDO('mysql:host=localhost;dbname=reunion_famille;charset=utf8', 'root', '');
+include '../config/db_config.php';
+
+try {
+    $bdd = new PDO("mysql:host=$host_name; dbname=$database;", $user_name, $password);
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
+#En cas d'erreur
 catch (Exception $e)
 {
-    die('Erreur : ' . $e->getMessage());
+    $error = "Erreur de connexion à la base de données, veillez réessayer ultérieurement.";
+    //header("Location: ../html/login.php?error=$error");
+    $url = "../html/login.php?error=$error";
+    echo "<script>window.location.href='$url';</script>";
+    #die('Erreur : ' . $e->getMessage());
 }
 
 $response_reunion = $bdd->query('SELECT * FROM session_reunion');

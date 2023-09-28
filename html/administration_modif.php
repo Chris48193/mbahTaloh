@@ -1,11 +1,3 @@
-<!--
-----------------------------------
-- Filename: administration.php
-- Author: Christopher Yepmo
-- Date: 01-08-2020
-- Description: Page pour la gestion des taches de l'utilisateur
-----------------------------------
--->
 <?php
     session_start();
     function get_current_page_url() {
@@ -24,7 +16,9 @@
     if (!(isset($_SESSION['login'])))
     {
         $pageUrl = get_current_page_url();
-        header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+        //header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+        $url = "Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl";
+        echo "<script>window.location.href='$url';</script>";
     }
 ?>
 <!DOCTYPE html>

@@ -24,7 +24,9 @@
     if (!(isset($_SESSION['login'])))
     {
         $pageUrl = get_current_page_url();
-        header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+        //header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+        $url = "login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl";
+        echo "<script>window.location.href='$url';</script>";
     }
 ?>
 <!DOCTYPE html>

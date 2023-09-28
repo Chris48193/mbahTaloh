@@ -1,12 +1,5 @@
-<!--
-----------------------------------
-- Filename: administration.php
-- Author: Christopher Yepmo
-- Date: 01-08-2020
-- Description: Page pour la gestion des taches de l'utilisateur
-----------------------------------
--->
 <?php
+	session_start();
     function get_current_page_url() {
         #Getting current page url
         if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
@@ -21,7 +14,6 @@
         return $url;    
     }
     
-    session_start();
     if (isset($_SESSION['admin']))
     {
         
@@ -31,21 +23,33 @@
         if (!(isset($_SESSION['login'])))
         {
             $pageUrl = get_current_page_url();
-            header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+            //header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+            $url = "login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl";
+            echo "<script>window.location.href='$url';</script>";
         }
         else
         {
-            header('Location: authenticate_admin.php');
+            //header('Location: authenticate_admin.php');
+            $url = "authenticate_admin.php";
+            echo "<script>window.location.href='$url';</script>";
         }
     }
-    try
-    {
-        $pdd = new PDO('mysql:host=localhost;dbname=reunion_famille;charset=utf8', 'root', '');
+    #Connexion a la base
+    include '../config/db_config.php';
+
+    try {
+        $pdd = new PDO("mysql:host=$host_name; dbname=$database;", $user_name, $password);
         $pdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
+    #En cas d'erreur
     catch (Exception $e)
     {
-        die('Erreur : ' . $e->getMessage());
+        // $error = "Erreur de connexion à la base de données, veillez réessayer ultérieurement.";
+        $error = $e.getMessage();
+        //header("Location: ../html/login.php?error=$error");
+        $url = "../html/login.php?error=$error";
+        echo "<script>window.location.href='$url';</script>";
+        #die('Erreur : ' . $e->getMessage());
     }
 ?>
 <!DOCTYPE html>

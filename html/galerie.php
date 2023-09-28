@@ -16,7 +16,9 @@
     if (!(isset($_SESSION['login'])))
     {
         $pageUrl = get_current_page_url();
-        header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+        //header("Location: login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl");
+        $url = "login.php?error=Veillez vous connecter svp&pageUrl=$pageUrl";
+        echo "<script>window.location.href='$url';</script>";
     }
     $id_membre = $_SESSION['id'];
 ?>
@@ -137,13 +139,13 @@ img.zoom {
     <h1 class = "text-center my-3">Galerie photos Mbah Taloh</h1>
     <div class = "container">
         <div class = "row p-3 flex_box">
-            <div id = "dropArea_factures" style = "width:30vw;" class = "drop-area px-3 justify-content-center">
+            <div id = "dropArea_factures" class = "col-md-4 drop-area px-3 justify-content-center">
                 <div>
                     <form class="my-form">
                         <h6 class = "m-1">Ajouter des images ici par glissé déposé ou par selection d'une image dans votre mobile</h6>
                         <div class = "flex-box">
                             <p class = "text-center my-2">Déposer les images ici
-                            <p><input type="file" id="fileElem" multiple accept="image/*" onchange='handleFiles(this.files)' capture required="required">
+                            <p><input type="file" id="fileElem" multiple accept="image/*" onchange='handleFiles(this.files)' required="required">
                             <label class="button btn btn-primary font-weight-bold" for="fileElem">Choisir des images</label>
                         </div>
                         <progress id = "progress_bar_factures" role="progressbar" class = "progress progress-bar-info progress-bar" aria-valuemax="100" aria-valuemin="0" style="width:100%"></progress>
@@ -154,7 +156,7 @@ img.zoom {
         </div>
         <div class = "row mt-2">
             <div class = "col-md-12 flex_box">
-                <div id="uploads_names_factures" style = "width:30vw;"></div>
+                <div id="uploads_names_factures" class = "col-md-4"></div>
             </div>
         </div>
         <a href="" class = "btn btn-primary font-weight-bold">Terminé</a>
